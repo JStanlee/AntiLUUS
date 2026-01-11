@@ -3,118 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SkyCast PRO • Genzie Edition</title>
+    <title>SkyCast PRO • Genzie Vibe</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        :root { 
-            --bg: #0f172a; 
-            --pink: #ff007a; 
-            --blue: #38bdf8; 
-            --glass: rgba(255, 255, 255, 0.08); 
-            --text: #ffffff; 
-        }
-        
-        body { 
-            margin: 0; 
-            font-family: 'Lexend', -apple-system, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        header { 
-            padding: 20px; 
-            font-size: 1.8rem; 
-            font-weight: 900; 
-            background: linear-gradient(to right, var(--pink), var(--blue)); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            text-transform: uppercase; 
-        }
-
+        :root { --bg: #0f172a; --pink: #ff007a; --blue: #38bdf8; --glass: rgba(255, 255, 255, 0.08); --text: #ffffff; }
+        body { margin: 0; font-family: sans-serif; background: var(--bg); color: var(--text); display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        header { padding: 20px; font-size: 1.8rem; font-weight: 900; background: linear-gradient(to right, var(--pink), var(--blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
         main { width: 100%; max-width: 450px; padding: 10px 15px 40px 15px; box-sizing: border-box; }
-
-        .card { 
-            background: var(--glass); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            border-radius: 30px; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-        }
-
-        .btn-main { 
-            background: var(--pink); 
-            border: none; 
-            color: white; 
-            padding: 14px; 
-            border-radius: 18px; 
-            font-weight: 800; 
-            width: 100%; 
-            text-transform: uppercase; 
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 0, 122, 0.3);
-        }
-
-        /* Map Controls */
-        #map { height: 350px; width: 100%; border-radius: 22px; z-index: 1; margin-bottom: 10px; }
-        
-        .layer-selector { 
-            display: flex; 
-            gap: 8px; 
-            overflow-x: auto; 
-            padding-bottom: 15px; 
-            scrollbar-width: none; 
-        }
-        
-        .layer-btn { 
-            background: rgba(255,255,255,0.1); 
-            border: 1px solid rgba(255,255,255,0.2); 
-            color: white; 
-            padding: 10px 16px; 
-            border-radius: 14px; 
-            font-size: 0.75rem; 
-            white-space: nowrap; 
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .layer-btn.active { background: var(--pink); border-color: var(--pink); transform: scale(1.05); }
-
-        .slider-container { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 20px; text-align: center; }
-        
-        input[type=range] { 
-            width: 100%; 
-            accent-color: var(--pink); 
-            margin: 10px 0; 
-            cursor: pointer;
-        }
-
-        #radar-time { font-size: 0.8rem; font-weight: bold; color: var(--blue); }
-
+        .card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 20px; margin-bottom: 20px; }
+        .btn-main { background: var(--pink); border: none; color: white; padding: 14px; border-radius: 18px; font-weight: 800; width: 100%; text-transform: uppercase; cursor: pointer; margin-bottom: 20px; }
+        #map { height: 350px; width: 100%; border-radius: 22px; z-index: 1; background: #000; }
+        .layer-selector { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 10px; }
+        .layer-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 15px; border-radius: 12px; font-size: 0.75rem; white-space: nowrap; cursor: pointer; }
+        .layer-btn.active { background: var(--pink); border-color: var(--pink); }
+        .slider-box { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 20px; margin-top: 10px; }
+        input[type=range] { width: 100%; accent-color: var(--pink); }
+        #radar-time { font-size: 0.8rem; font-weight: bold; color: var(--pink); text-align: center; display: block; }
         .temp-big { font-size: 3.5rem; font-weight: 800; margin: 0; }
-        canvas { width: 100% !important; height: 160px !important; }
-
-        /* Skala mapy */
-        .leaflet-control-scale-line { 
-            background: rgba(15, 23, 42, 0.7) !important; 
-            color: white !important; 
-            border: 1px solid var(--pink) !important; 
-            text-shadow: none !important;
-            font-size: 9px !important;
-        }
+        canvas { width: 100% !important; height: 180px !important; }
+        .legend { font-size: 0.65rem; display: flex; justify-content: space-between; margin-top: 5px; opacity: 0.7; }
     </style>
 </head>
 <body>
@@ -127,18 +41,16 @@
     <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <div>
-                <div id="city" style="color: var(--blue); font-weight: 800; font-size: 0.8rem; text-transform: uppercase;">Wybierz lokację</div>
+                <div id="city" style="color: var(--blue); font-weight: 800; font-size: 0.8rem;">USTALAM LOKALIZACJĘ...</div>
                 <h1 class="temp-big" id="main-temp">--°</h1>
             </div>
             <div id="main-icon"></div>
         </div>
-        <div id="advice" style="margin-top:15px; font-size: 0.9rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-            No cap, czekam na dane... ⏳
-        </div>
+        <div id="advice" style="margin-top:10px; font-size: 0.9rem;">No cap, czekam na dane... ⏳</div>
     </div>
 
     <div class="card">
-        <h3 style="margin:0 0 10px 0; font-size: 0.8rem; color: var(--pink); text-transform: uppercase;">Prognoza temp. (24h)</h3>
+        <h3 style="margin:0 0 10px 0; font-size: 0.8rem; color: var(--pink); text-transform: uppercase;">Prognoza 24h 🔥</h3>
         <canvas id="tempChart"></canvas>
     </div>
 
@@ -149,166 +61,91 @@
             <button class="layer-btn" onclick="setLayer('wind_new', this)">💨 Wiatr</button>
             <button class="layer-btn" onclick="setLayer('pressure_new', this)">⏲️ Ciśnienie</button>
         </div>
-        
         <div id="map"></div>
-        
-        <div class="slider-container" id="radar-ui">
-            <div id="radar-time">Ładowanie klatek radaru...</div>
-            <input type="range" id="radar-slider" min="0" max="0" value="0" oninput="showRadarFrame(this.value)">
-            <div style="font-size: 0.65rem; opacity: 0.6; margin-top: 5px;">PRZESUŃ, BY ZOBACZYĆ RUCH CHMUR ☁️</div>
+        <div class="slider-box" id="radar-ui">
+            <span id="radar-time">Ładowanie radaru...</span>
+            <input type="range" id="radar-slider" min="0" max="0" value="0" oninput="updateRadarFrame(this.value)">
+            <div class="legend"><span>HISTORIA</span><span>TERAZ</span><span>PROGNOZA</span></div>
         </div>
-        
-        <div id="map-msg" style="text-align: center; font-size: 0.8rem; margin-top: 10px; color: var(--blue); font-weight: bold;"></div>
     </div>
 </main>
 
 <script>
-    const API_KEY = "07c3b3e89d44a0eeb75b69e69c4b2264";
+    const KEY = "07c3b3e89d44a0eeb75b69e69c4b2264";
     let map = L.map('map', { zoomControl: false, attributionControl: false }).setView([52.2, 19.2], 6);
-    
-    // Podkład mapy
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    L.control.scale({ imperial: false, position: 'bottomright' }).addTo(map);
 
-    let radarFrames = [];
-    let radarLayers = [];
-    let owmLayer = null;
-    let tempChart = null;
-    let currentMode = 'radar';
+    let radarLayers = [], radarFrames = [], owmLayer = null, tempChart = null;
 
-    const layerMsgs = {
-        'radar': "Radar opadów live! Sprawdzaj czy nie zaleje Ci fitu. 🌧️",
-        'temp_new': "Mapa cieplna! 🔥 Rel, zobacz gdzie jest największy ogień.",
-        'wind_new': "Wieje jak na planie! 💨 Nie daj się zdmuchnąć.",
-        'pressure_new': "Ciśnienie pod lupą. No cap, głowa czysta! ⏲️"
-    };
-
-    // FUNKCJA ZMIANY WARSTW
-    function setLayer(type, btn) {
-        currentMode = type;
+    async function setLayer(type, btn) {
         document.querySelectorAll('.layer-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById('map-msg').innerText = layerMsgs[type];
-
-        // Czyścimy mapę
+        
         if (owmLayer) map.removeLayer(owmLayer);
         radarLayers.forEach(l => map.removeLayer(l));
-        
-        const radarUI = document.getElementById('radar-ui');
-        
+        document.getElementById('radar-ui').style.display = (type === 'radar') ? 'block' : 'none';
+
         if (type === 'radar') {
-            radarUI.style.display = 'block';
             loadRadar();
         } else {
-            radarUI.style.display = 'none';
-            owmLayer = L.tileLayer(`https://tile.openweathermap.org/map/${type}/{z}/{x}/{y}.png?appid=${API_KEY}`, {
+            owmLayer = L.tileLayer(`https://tile.openweathermap.org/map/${type}/{z}/{x}/{y}.png?appid=${KEY}`, {
                 opacity: 0.7, zIndex: 100
             }).addTo(map);
         }
     }
 
-    // RADAR (RAINVIEWER)
     async function loadRadar() {
-        try {
-            const res = await fetch("https://api.rainviewer.com/public/weather-maps.json");
-            const data = await res.json();
-            radarFrames = [...data.radar.past, ...data.radar.nowcast];
-            
-            radarLayers.forEach(l => map.removeLayer(l));
-            radarLayers = [];
-
-            radarFrames.forEach(frame => {
-                const layer = L.tileLayer(`https://tilecache.rainviewer.com/v2/radar/${frame.time}/{z}/{x}/{y}/2/1_1.png`, {
-                    opacity: 0, zIndex: 200
-                });
-                layer.addTo(map);
-                radarLayers.push(layer);
-            });
-
-            const slider = document.getElementById('radar-slider');
-            slider.max = radarFrames.length - 1;
-            slider.value = radarFrames.length - 1;
-            showRadarFrame(slider.value);
-        } catch (e) { document.getElementById('radar-time').innerText = "Błąd radaru ️⚠️"; }
-    }
-
-    function showRadarFrame(index) {
-        if (currentMode !== 'radar') return;
-        radarLayers.forEach((l, i) => l.setOpacity(i == index ? 0.8 : 0));
+        const res = await fetch("https://api.rainviewer.com/public/weather-maps.json");
+        const data = await res.json();
+        radarFrames = [...data.radar.past, ...data.radar.nowcast];
         
-        const date = new Date(radarFrames[index].time * 1000);
-        const timeStr = date.getHours() + ":" + date.getMinutes().toString().padStart(2, '0');
-        const isFuture = index > radarFrames.length - 4;
-        document.getElementById('radar-time').innerText = `CZAS: ${timeStr} ${isFuture ? '[PROGNOZA 🔮]' : '[HISTORIA 🕰️]'}`;
+        radarLayers.forEach(l => map.removeLayer(l));
+        radarLayers = radarFrames.map(f => L.tileLayer(`https://tilecache.rainviewer.com/v2/radar/${f.time}/256/{z}/{x}/{y}/2/1_1.png`, { opacity: 0, zIndex: 200 }).addTo(map));
+
+        document.getElementById('radar-slider').max = radarFrames.length - 1;
+        updateRadarFrame(radarFrames.length - 1);
     }
 
-    // DANE POGODOWE
-    async function fetchWeather(lat, lon) {
-        try {
-            const curRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=${API_KEY}`);
-            const cur = await curRes.json();
-            const forRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=${API_KEY}`);
-            const fore = await forecastData = await forRes.json();
-
-            updateDashboard(cur, fore);
-        } catch (e) { alert("Błąd API. Sprawdź czy klucz jest aktywny!"); }
+    function updateRadarFrame(idx) {
+        radarLayers.forEach((l, i) => l.setOpacity(i == idx ? 0.8 : 0));
+        const date = new Date(radarFrames[idx].time * 1000);
+        document.getElementById('radar-time').innerText = `RADAR: ${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+        document.getElementById('radar-slider').value = idx;
     }
 
-    function updateDashboard(cur, fore) {
-        document.getElementById('city').innerText = cur.name;
-        document.getElementById('main-temp').innerText = Math.round(cur.main.temp) + "°";
-        document.getElementById('main-icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${cur.weather[0].icon}@2x.png" style="width:70px">`;
+    async function getData(lat, lon) {
+        const cRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=${KEY}`);
+        const current = await cRes.json();
+        const fRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&lang=pl&appid=${KEY}`);
+        const forecast = await fRes.json();
+
+        document.getElementById('city').innerText = current.name.toUpperCase();
+        document.getElementById('main-temp').innerText = Math.round(current.main.temp) + "°";
+        document.getElementById('main-icon').innerHTML = `<img src="https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png" width="70">`;
         
-        const t = cur.main.temp;
-        let advice = t > 20 ? "Jest hot! 🔥 T-shirt to must-have." : t > 10 ? "Vibe chillowy, wrzuć bluzę Genzie. 🧥" : "Mrozi! 🥶 Kurtka i czapa, no cap.";
-        document.getElementById('advice').innerText = advice;
+        const t = current.main.temp;
+        document.getElementById('advice').innerText = t > 20 ? "Jest hot! 🔥 T-shirty w ruch!" : t > 10 ? "Vibe chillowy, bluza wystarczy. 🧥" : "Mrozi! 🥶 Gruba kurtka, no cap.";
 
-        renderChart(fore);
-    }
-
-    function renderChart(fore) {
-        const labels = fore.list.slice(0, 8).map(i => new Date(i.dt * 1000).getHours() + ":00");
-        const temps = fore.list.slice(0, 8).map(i => i.main.temp);
-
-        if (tempChart) tempChart.destroy();
+        if(tempChart) tempChart.destroy();
         tempChart = new Chart(document.getElementById('tempChart'), {
             type: 'line',
             data: {
-                labels: labels,
-                datasets: [{
-                    data: temps,
-                    borderColor: '#ff007a',
-                    backgroundColor: 'rgba(255, 0, 122, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    pointRadius: 4,
-                    pointBackgroundColor: '#fff'
-                }]
+                labels: forecast.list.slice(0, 8).map(i => new Date(i.dt * 1000).getHours() + ":00"),
+                datasets: [{ data: forecast.list.slice(0, 8).map(i => i.main.temp), borderColor: '#ff007a', tension: 0.4, fill: true, backgroundColor: 'rgba(255, 0, 122, 0.1)' }]
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { ticks: { color: '#fff' }, grid: { display: false } },
-                    y: { ticks: { color: '#fff' }, grid: { color: 'rgba(255,255,255,0.1)' } }
-                }
-            }
+            options: { plugins: { legend: false }, scales: { y: { ticks: { color: '#fff' } }, x: { ticks: { color: '#fff' } } } }
         });
     }
 
     function locateMe() {
         navigator.geolocation.getCurrentPosition(p => {
-            const lat = p.coords.latitude, lon = p.coords.longitude;
-            map.setView([lat, lon], 10);
-            fetchWeather(lat, lon);
+            map.setView([p.coords.latitude, p.coords.longitude], 10);
+            getData(p.coords.latitude, p.coords.longitude);
         });
     }
 
-    // Inicjalizacja
-    setLayer('radar', document.querySelector('.layer-btn'));
-    fetchWeather(52.23, 21.01); // Start na Warszawę
+    loadRadar();
+    getData(52.23, 21.01);
 </script>
-
 </body>
 </html>
