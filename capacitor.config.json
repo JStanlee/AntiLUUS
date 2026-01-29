@@ -1,0 +1,10 @@
+{
+  "appId": "com.luus.app",
+  "appName": "LUUS",
+  "webDir": "dist",
+  "plugins": {
+    "AdMob": {
+      "initializeForTesting": true
+    }
+  }
+}
